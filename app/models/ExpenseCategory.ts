@@ -1,11 +1,11 @@
 import {model, Schema} from "mongoose";
 
 interface ExpenseCategory {
-    "name": string;
+    "title": string;
 }
 
 const expenseCategorySchema = new Schema<ExpenseCategory>({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true
