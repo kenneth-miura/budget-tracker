@@ -1,6 +1,4 @@
 import Image from "next/image";
-import {connectToDatabase} from "@/app/lib/db";
-import ExpenseCategory from "@/app/models/ExpenseCategory";
 
 
 // This is needed so that my logging shows up in docker, and so my server side env variables also show up: https://github.com/vercel/next.js/issues/60723
