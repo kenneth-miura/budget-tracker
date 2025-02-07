@@ -16,14 +16,13 @@ Clone the repo and run the following commands:
     docker-compose up -d # if you want to run without rebuilding
     docker-compose up -d --build # if you want to run without rebuilding
 
-Then visit localhost:3000 to see the app running.
+Then visit localhost:3000 to see the app running. This should also hot reload (but you will have to reload the page on your own).
 
 Once you're done, run the following:
 
     docker-compose down
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Prod Running
+```bash
+docker compose -f "docker-compose.prod.yml" up -d --build
+```
