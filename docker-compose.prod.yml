@@ -1,19 +1,13 @@
-
-# dev setup based on https://medium.com/@elifront/best-next-js-docker-compose-hot-reload-production-ready-docker-setup-28a9125ba1dc
 services:
   web:
     build:
       context: .
-      target: dev
     container_name: web
     restart: always
-    command: pnpm dev
-    volumes:
-      - .:/app
-      - .:/node_modules
-      - .:/.next
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
     depends_on:
       - mongo
   mongo:
