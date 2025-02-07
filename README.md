@@ -3,6 +3,11 @@
 This examples shows how to use Docker with Next.js based on the [deployment documentation](https://nextjs.org/docs/deployment#docker-image). Additionally, it contains instructions for deploying to Google Cloud Run. However, you can use any container-based deployment host.
 
 
+## Building the Web App on it's own
+```bash
+docker build -t nextjs-docker .
+docker run -p 3000:3000 nextjs-docker
+```
 ## Usage
 
 Clone the repo and run the following commands:

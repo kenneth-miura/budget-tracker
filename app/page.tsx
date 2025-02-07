@@ -8,16 +8,14 @@ export const dynamic = "force-dynamic";
 
 
 export default async function Home() {
+  /*
   await connectToDatabase();
 
-  const category = new ExpenseCategory({
-    name: "Food"
-  });
-
-  await category.save();
 
   const categories = await ExpenseCategory.find().exec();
-  console.log(categories.map((category) => category.name));
+  console.log(categories.map((category) => category.title));
+
+   */
 
 
 
@@ -28,6 +26,7 @@ export default async function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        I made another change
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -47,9 +46,6 @@ export default async function Home() {
         </ol>
         <div>
           Categories:
-          <ol>
-            {categories.map((category) => (category.name))}
-          </ol>
 
         </div>
 
