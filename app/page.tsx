@@ -1,8 +1,5 @@
-// TODO: revert from client version
-'use client'
 import Image from "next/image";
-import {createExpenseCategory, State} from "@/app/lib/actions";
-import {useActionState} from "react";
+import UploadFileButton from "@/app/ui/UploadFileButton";
 
 
 // This is needed so that my logging shows up in docker, and so my server side env variables also show up: https://github.com/vercel/next.js/issues/60723
@@ -10,9 +7,6 @@ export const dynamic = "force-dynamic";
 
 
 export default function Home() {
-
-  const initialState: State = {};
-  const [state, formAction] = useActionState(createExpenseCategory, initialState);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -35,11 +29,7 @@ export default function Home() {
             .
           </li>
         </ol>
-        <form action={formAction}>
-          <label htmlFor="title">Enter a title for the category</label>
-          <input className='border-b-black' type="text" name="title" id="title" required/>
-          <button type="submit">Submit</button>
-        </form>
+        <UploadFileButton/>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a

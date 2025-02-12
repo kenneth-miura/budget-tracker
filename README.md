@@ -21,7 +21,10 @@ Then visit localhost:3000 to see the app running. This should also hot reload (b
 Once you're done, run the following:
 
     docker-compose down
-
+## Rebuilding the web container
+```bash
+docker-compose up -d --build web
+```
 ## Prod Running
 ```bash
 docker compose -f "docker-compose.prod.yml" up -d --build

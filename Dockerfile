@@ -1,4 +1,6 @@
-FROM node:18-alpine AS base
+# we need node 20 so we support File, see below:
+# https://github.com/vercel/next.js/discussions/56032
+FROM node:20-alpine AS base
 # Need to update corepack, since if we use the older version we fail the keyid check
 # see https://vercel.com/guides/corepack-errors-github-actions
 RUN npm install -g corepack@latest
