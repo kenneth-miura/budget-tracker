@@ -6,7 +6,7 @@ import {Readable} from "node:stream";
 import {parse} from "csv-parse";
 import ExpenseMappingsSingleton from "@/app/models/ExpenseMappingsSingleton";
 import {CategorizedExpenses, categorizeExpensesByCategory} from "@/app/lib/categorizeExpensesByCategory";
-import {parseCSVCreditExpenses} from "@/app/lib/parseCSVCreditExpenses";
+import {parseCSVCreditTransactions} from "@/app/lib/parseCSVCreditTransactions";
 
 
 export interface State {
@@ -52,7 +52,7 @@ interface ExpenseState extends State {
 export async function categorizeExpenses(prevState: ExpenseState, formData: FormData): Promise<ExpenseState>{
     const file = formData.get('expensesFile');
     if(file instanceof File){
-        const expenses = await parseCSVCreditExpenses(file);
+        const expenses = await parseCSVCreditTransactions(file);
         console.log(JSON.stringify(expenses));
         // const [expenses, categoryMappings] = await Promise.all([parseCSV(file), getCategoryMappings()]);
         // TODO: set up helper function that takes the CSV data + the category mapping

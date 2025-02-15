@@ -1,18 +1,36 @@
+import {isCardPayment, RBCCreditTransaction} from "@/app/lib/parseCSVCreditTransactions";
 
 export interface CategorizedExpenses {
-    expensesByCategory: Record<string, string>;
+    expensesByCategory: Map<string, string>;
     uncategorizedExpenseNames: string[];
 }
 
-export function categorizeExpensesByCategory(expenses: Record<string, string>[], categoryMapping: Map<string, string>): CategorizedExpenses{
-    // TODO: test this in jest using hardcoded expense and cateogry mapping before starting dev so my feedback loop is tighter
-    // add each expense into a category
-    // only consider chequeing and credit card expenses
-    // also get all the deposits together and output as a category
-    // also return the items that don't fit into any specific category
+export function categorizeExpensesByCategory(expenses: RBCCreditTransaction[], categoryMapping: Map<string, string>): CategorizedExpenses{
+
+    const expensesByCategory: Map<string, number> = new Map();
+    const uncategorizedExpenseNames: string[] = []
+    expenses.forEach(expense => {
+
+        if(isCardPayment(expense)){
+            return;
+        }
+
+        if (categoryMapping.has(expense.targetDescription)){
+            const category = categoryMapping.get(expense.targetDescription);
+            if(category == undefined){
+                return;
+            }
+            const currentCategoryExpense = expensesByCategory.get(category) ?? 0;
+            const additionalExpense = -expense.costInCad;
+            expensesByCategory.set(category, currentCategoryExpense + additionalExpense);
+        }
+        else {
+            uncategorizedExpenseNames.push(expense.targetDescription);
+        }
+    })
 
     return {
-        expensesByCategory: {},
-        uncategorizedExpenseNames: []
+        expensesByCategory: new Map(Array.from(expensesByCategory, ([key, value]) => [key, value.toFixed(2)])),
+        uncategorizedExpenseNames
     }
 }

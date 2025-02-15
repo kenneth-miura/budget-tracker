@@ -15,37 +15,40 @@ const a = {
 // for Accounts, Description 1 -> Expense Type, Description 2 is usually target
 // Do I need to handle savings? I feel like that's a nice to have. For now, let's only handle a credit card expense
 
-type RBCExpense = RBCCreditExpense;
 
-interface RBCCreditExpense {
+export interface RBCCreditTransaction {
     accountType: "MasterCard" ;
     transactionDate: Date;
     targetDescription: string;
+    /** If the cost is negative, that means a purchase was made. If it's positive, that means the card was paid off*/
     costInCad: number;
 }
 
-function parseRawExpenseAsCredit(rawRecord: Record<string, string>): RBCCreditExpense{
+function parseRawTransactionAsCredit(rawRecord: Record<string, string>): RBCCreditTransaction{
     return {
         accountType: "MasterCard",
         costInCad: parseFloat(rawRecord["CAD$"]),
         targetDescription: rawRecord["Description 1"],
         transactionDate: new Date( rawRecord["Transaction Date"])
     }
-
 }
 
-export async function parseCSVCreditExpenses(file: File): Promise<RBCCreditExpense[]> {
+export function isCardPayment(transaction: RBCCreditTransaction){
+    return transaction.costInCad > 0;
+}
+
+export async function parseCSVCreditTransactions(file: File): Promise<RBCCreditTransaction[]> {
     const buffer = await file.arrayBuffer();
     const stream = Readable.from(Buffer.from(buffer));
 
     return new Promise((resolve, reject) => {
         const parser = parse({columns: true, trim: true});
-        const creditExpenses: RBCCreditExpense[] = [];
+        const creditExpenses: RBCCreditTransaction[] = [];
         parser.on("readable", () => {
             let record;
             while ((record = parser.read()) !== null) {
                 if(record['Account Type'] === 'MasterCard'){
-                    creditExpenses.push(parseRawExpenseAsCredit(record))
+                    creditExpenses.push(parseRawTransactionAsCredit(record))
                 }
             }
         });
